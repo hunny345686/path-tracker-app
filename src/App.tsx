@@ -1,8 +1,10 @@
-
+import Navbaar from "./Navbaar"
 
 function App() {
   return (
-    <h2>Welcome to Path Tracker</h2>
+    <div className="min-h-screen text-slate-900">
+      <Navbaar />
+    </div>
   )
 }
 
