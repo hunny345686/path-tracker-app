@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import Navbaar from "./Navbaar"
-import Map from './components/map';
+import MapComponent from './components/map';
 
 
 const HUB_START = { lat: 12.9719, lng: 77.6412, address: 'Indiranagar (Hub)' };
@@ -137,7 +137,7 @@ function App() {
             </div>
           </div>
         </div>
-        <Map HUB_START={HUB_START} route={route} deliveries={deliveries} />
+        <MapComponent HUB_START={HUB_START} route={route} deliveries={deliveries} />
       </div>
     </div>
   )

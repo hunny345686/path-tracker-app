@@ -1,54 +1,75 @@
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-// Custom Numbered Pin for Map
-const createMarkerIcon = (number, isHub = false) => L.divIcon({
-    html: `<div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white shadow-lg font-bold text-sm 
-           ${isHub ? 'bg-orange-500' : 'bg-indigo-600'} text-white">
-           ${isHub ? '★' : number}
-           </div>`,
-    className: 'custom-pin',
-    iconSize: [32, 32],
-    iconAnchor: [16, 16],
-});
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-// const createMarkerIcon = (number, isHub = false) => L.icon({
-//     iconUrl: './public/delivery.png',
-//     shadowUrl: 'leaf-shadow.png',
+// Custom Marker Function
+const createMarkerIcon = (number, isHub = false) => {
+    const iconContent = isHub
+        ? `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2"><path d="M5.5 17.5L2 14l3.5-3.5M2 14h13.5M17 6H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/><circle cx="17.5" cy="17.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/></svg>`
+        : `<span style="color: white; font-weight: bold; font-size: 12px;">${number}</span>`;
 
-//     iconSize: [16, 95], // size of the icon
-//     shadowSize: [50, 64], // size of the shadow
-//     iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-//     shadowAnchor: [4, 62],  // the same for the shadow
-//     popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-// });
-export default function Map({ HUB_START, route, deliveries }) {
+    return L.divIcon({
+        html: `
+            <div style="display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="
+                    width: 32px; height: 32px; 
+                    background: ${isHub ? 'linear-gradient(135deg, #0ea5e9, #2563eb)' : '#1e293b'}; 
+                    border: 2px solid white; 
+                    border-radius: 50%; 
+                    display: flex; align-items: center; justify-content: center;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+                ">
+                    ${iconContent}
+                </div>
+            </div>`,
+        className: 'custom-pin',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+    });
+};
 
-    {/* Right Area: Map */ }
+export default function MapComponent({ HUB_START, route, deliveries }) {
     return (
-        <div className="lg:col-span-8 bg-white rounded-4xl border-4 border-white shadow-2xl overflow-hidden h-[600px] sticky top-28" >
-            <MapContainer center={[12.95, 77.65]} zoom={12} className="h-full w-full">
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <div className="lg:col-span-8 bg-[#0f172a]  overflow-hidden h-[600px] ">
+            <MapContainer
+                center={[12.9716, 77.5946]}
+                zoom={12}
+                className="h-full w-full"
+            >
 
-                {/* Start Hub */}
+                <TileLayer
+                    url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; Stadia Maps'
+                />
+                {/* Hub Marker */}
                 <Marker position={[HUB_START.lat, HUB_START.lng]} icon={createMarkerIcon(0, true)}>
-                    <Popup><p className="font-bold">Base: Indiranagar</p></Popup>
+                    <Popup>
+                        <div style={{ color: '#000' }}><strong>Base:</strong> Indiranagar</div>
+                    </Popup>
                 </Marker>
 
                 {/* Delivery Markers */}
                 {(route.length > 0 ? route.slice(1) : deliveries).map((d, i) => (
                     <Marker key={d.id} position={[d.lat, d.lng]} icon={createMarkerIcon(i + 1)}>
                         <Popup>
-                            <div className="p-1">
-                                <p className="font-bold border-b pb-1 mb-1">{d.product}</p>
-                                <p className="text-xs">{d.address}</p>
+                            <div style={{ color: '#000' }}>
+                                <strong>{d.product}</strong><br />
+                                {d.address}
                             </div>
                         </Popup>
                     </Marker>
                 ))}
 
+                {/* Neon Path */}
                 {route.length > 1 && (
-                    <Polyline positions={route.map(p => [p.lat, p.lng])} color="#4F46E5" weight={5} opacity={0.8} dashArray="12, 12" />
+                    <Polyline
+                        positions={route.map(p => [p.lat, p.lng])}
+                        color="#22d3ee"
+                        weight={4}
+                        opacity={0.9}
+                    />
                 )}
             </MapContainer>
-        </div >
-    )
+        </div>
+    );
 }
