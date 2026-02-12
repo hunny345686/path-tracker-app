@@ -1,13 +1,5 @@
 export const blrLocations = [
-    {
-        id: 101,
-        product: 'Gourmet Pizza',
-        customerName: 'Rahul Verma',
-        mobile: '9845012345',
-        address: 'Indiranagar 100ft Road',
-        lat: 12.9716,
-        lng: 77.6412
-    },
+
     {
         id: 102,
         product: 'MacBook Pro',

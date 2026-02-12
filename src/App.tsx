@@ -33,43 +33,50 @@ function App() {
     setActiveTab('pack');
   };
 
-  return (
-    // Changed background to Slate-950 (Near Black)
-    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-indigo-500/30">
 
-      {/* Navbar will inherit dark from your previous update */}
+  // Changed background to Slate-950 (Near Black)
+  return (
+    <div className="min-h-screen bg-[#0f0f0f] text-white font-sans selection:bg-red-500/30">
       <Navbaar setDeliveries={setDeliveries} setRoute={setRoute} setActiveTab={setActiveTab} />
 
-      <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-[1600px] mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* Left Sidebar: Controls & Packing */}
-        <div className="lg:col-span-4 space-y-6">
+        {/* Main "Video" Area (The Map) */}
+        <div className="lg:col-span-8 order-1 lg:order-1">
+          <MapComponent HUB_START={HUB_START} route={route} deliveries={deliveries} />
 
-          {/* Action Area with Dark Glass Effect */}
-          <div className="bg-[#0f172a] rounded-3xl border border-slate-800 shadow-2xl overflow-hidden backdrop-blur-xl">
-            <div className="flex border-b border-slate-800 bg-slate-900/50">
-              <button
-                onClick={() => setActiveTab('list')}
-                className={`flex-1 py-5 text-xs uppercase tracking-widest font-black transition-all ${activeTab === 'list'
-                  ? 'text-indigo-400 border-b-2 border-indigo-500 bg-indigo-500/5'
-                  : 'text-slate-500 hover:text-slate-300'
-                  }`}
-              >
-                Orders Queue
-              </button>
-              <button
-                onClick={() => setActiveTab('pack')}
-                disabled={route.length === 0}
-                className={`flex-1 py-5 text-xs uppercase tracking-widest font-black transition-all ${activeTab === 'pack'
-                  ? 'text-cyan-400 border-b-2 border-cyan-500 bg-cyan-500/5'
-                  : 'text-slate-500 hover:text-slate-300 disabled:opacity-20'
-                  }`}
-              >
-                Bag Arrangement
+          {/* "Video Info" Section below map */}
+          <div className="mt-4 p-2">
+            <h1 className="text-xl font-bold tracking-tight">Bengaluru Logistics Hub #1</h1>
+            <div className="flex items-center gap-4 mt-2">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center font-bold">P</div>
+                <div>
+                  <p className="text-sm font-bold">PathTracker Official</p>
+                  <p className="text-xs text-slate-400">1.2M deliveries optimized</p>
+                </div>
+              </div>
+              <button className="bg-white text-black px-4 py-2 rounded-full text-sm font-bold hover:bg-slate-200 transition-colors ml-auto">
+                Subscribe
               </button>
             </div>
+          </div>
+        </div>
 
-            {/* Passing setDeliveries so the "Remove" function works */}
+        {/* "Up Next" Sidebar (The Tabs/List) */}
+        <div className="lg:col-span-4 order-2 lg:order-2 space-y-4">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <button onClick={() => setActiveTab('list')}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${activeTab === 'list' ? 'bg-white text-black' : 'bg-[#272727] text-white hover:bg-[#3f3f3f]'}`}>
+              Orders Queue
+            </button>
+            <button onClick={() => setActiveTab('pack')} disabled={route.length === 0}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${activeTab === 'pack' ? 'bg-white text-black' : 'bg-[#272727] text-white hover:bg-[#3f3f3f] disabled:opacity-20'}`}>
+              Bag Arrangement
+            </button>
+          </div>
+
+          <div className="bg-[#0f0f0f]">
             <TabComponnet
               activeTab={activeTab}
               deliveries={deliveries}
@@ -78,21 +85,6 @@ function App() {
               route={route}
             />
           </div>
-
-          {/* Optional: Status Card */}
-          <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-6 rounded-3xl shadow-lg shadow-indigo-500/20 text-white">
-            <h4 className="text-sm font-bold opacity-80 uppercase tracking-tight">Active Fleet</h4>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black">1</span>
-              <span className="text-sm opacity-80">Rider Online</span>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Map Section */}
-        <div className="lg:col-span-8">
-          <MapComponent HUB_START={HUB_START} route={route} deliveries={deliveries} />
         </div>
 
       </div>

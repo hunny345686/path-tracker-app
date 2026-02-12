@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function UserDeatilForm() {
+export default function UserDeatilForm({ setDeliveries, setActiveTab }) {
     const [newProduct, setNewProduct] = useState('');
     const [newAddress, setNewAddress] = useState('');
     const [customerName, setCustomerName] = useState('');
@@ -10,7 +10,7 @@ export default function UserDeatilForm() {
     const handleAddDelivery = async (e) => {
         e.preventDefault();
         if (!newProduct || !newAddress || !customerName || !mobile) {
-            return alert("Please fill all fields (Product, Name, Mobile, and Address)");
+            return alert("Please fill all fields!");
         }
 
         setIsLoading(true);
@@ -33,14 +33,14 @@ export default function UserDeatilForm() {
 
                 setDeliveries(prev => [...prev, newEntry]);
 
-                // Clear all fields
+                // Reset form
                 setNewProduct('');
                 setNewAddress('');
                 setCustomerName('');
                 setMobile('');
                 setActiveTab('list');
             } else {
-                alert("Could not find that address. Please be more specific.");
+                alert("Address not found. Try adding city/state.");
             }
         } catch (error) {
             console.error("Geocoding error:", error);
@@ -49,40 +49,61 @@ export default function UserDeatilForm() {
         }
     };
 
-    return (<form onSubmit={handleAddDelivery} className="grid grid-cols-1 md:grid-cols-5 gap-2 bg-slate-800 p-2 rounded-2xl border border-slate-700">
-        <input
-            type="text"
-            placeholder="Product"
-            className="bg-transparent text-white px-4 py-2 outline-none text-sm border-r border-slate-700"
-            value={newProduct}
-            onChange={(e) => setNewProduct(e.target.value)}
-        />
-        <input
-            type="text"
-            placeholder="Customer Name"
-            className="bg-transparent text-white px-4 py-2 outline-none text-sm border-r border-slate-700"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-        />
-        <input
-            type="tel"
-            placeholder="Mobile No."
-            className="bg-transparent text-white px-4 py-2 outline-none text-sm border-r border-slate-700"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-        />
-        <input
-            type="text"
-            placeholder="Delivery Address"
-            className="bg-transparent text-white px-4 py-2 outline-none text-sm border-r border-slate-700 md:border-r-0"
-            value={newAddress}
-            onChange={(e) => setNewAddress(e.target.value)}
-        />
-        <button
-            disabled={isLoading}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-xl text-sm font-bold transition-all disabled:opacity-50"
+    return (
+        <form
+            onSubmit={handleAddDelivery}
+            className="flex items-center flex-1 bg-[#121212] border border-[#303030] rounded-full overflow-hidden focus-within:border-[#1c62b9] transition-all"
         >
-            {isLoading ? 'Locating...' : 'Add Order +'}
-        </button>
-    </form>)
+            {/* Input Group */}
+            <div className="flex flex-1 items-center px-2">
+                <input
+                    type="text"
+                    placeholder="Product..."
+                    className="w-full bg-transparent text-white px-3 py-1.5 outline-none text-[13px] placeholder-[#888] border-r border-[#303030]"
+                    value={newProduct}
+                    onChange={(e) => setNewProduct(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Customer..."
+                    className="w-full bg-transparent text-white px-4 py-1.5 outline-none text-[13px] placeholder-[#888] border-r border-[#303030]"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                />
+                <input
+                    type="tel"
+                    placeholder="Mobile..."
+                    className="w-full bg-transparent text-white px-4 py-1.5 outline-none text-[13px] placeholder-[#888] border-r border-[#303030]"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Delivery Address..."
+                    className="w-[180%] bg-transparent text-white px-4 py-1.5 outline-none text-[13px] placeholder-[#888]"
+                    value={newAddress}
+                    onChange={(e) => setNewAddress(e.target.value)}
+                />
+            </div>
+
+            {/* YouTube-style Search Button */}
+            <button
+                type="submit"
+                disabled={isLoading}
+                className="bg-[#222222] hover:bg-[#333333] px-6 py-2 border-l border-[#303030] text-[#f1f1f1] transition-colors disabled:opacity-50 flex items-center gap-2"
+                title="Add Delivery"
+            >
+                {isLoading ? (
+                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                ) : (
+                    <>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg>
+                        <span className="text-xs font-bold uppercase tracking-tighter">Add</span>
+                    </>
+                )}
+            </button>
+        </form>
+    );
 }
