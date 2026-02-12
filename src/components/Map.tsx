@@ -1,9 +1,17 @@
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import type { RouteData } from "./types/types"
+
+
+interface MapProps {
+    HUB_START: RouteData,
+    route: RouteData[],
+    deliveries: RouteData[],
+}
 
 // Custom Marker Function styled for YouTube
-const createMarkerIcon = (number, isHub = false) => {
+const createMarkerIcon = (number: number, isHub: boolean = false) => {
     // Hub looks like a YouTube Play Button, Deliveries look like Red Notification pings
     const iconContent = isHub
         ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M8 5v14l11-7z"/></svg>`
@@ -32,14 +40,7 @@ const createMarkerIcon = (number, isHub = false) => {
     });
 };
 
-export default function MapComponent({ HUB_START, route, deliveries }) {
-    // Custom style for Leaflet Popups to match Dark Mode
-    const popupStyle = {
-        backgroundColor: '#1a1a1a',
-        color: '#ffffff',
-        borderRadius: '12px',
-        border: '1px solid #333'
-    };
+export default function MapComponent({ HUB_START, route, deliveries }: MapProps) {
 
     return (
         <div className="lg:col-span-8 bg-[#0f0f0f] overflow-hidden h-[600px] border border-white/5 rounded-2xl shadow-2xl">

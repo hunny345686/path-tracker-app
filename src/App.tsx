@@ -3,23 +3,31 @@ import 'leaflet/dist/leaflet.css';
 import Navbaar from "./components/Navbaar";
 import MapComponent from "./components/Map";
 import TabComponnet from "./components/TabComponent";
+import type { RouteData } from "./types/types"
 
-const HUB_START = { lat: 12.9719, lng: 77.6412, address: 'Indiranagar (Hub)' };
+const HUB_START = {
+  lat: 12.9719, lng: 77.6412,
+  address: 'Indiranagar (Hub)',
+  id: 100,
+  product: 'phone',
+  customerName: 'Prem Songh',
+  mobile: '9999999999',
+};
 
-const getDistance = (p1, p2) => Math.sqrt(Math.pow(p1.lat - p2.lat, 2) + Math.pow(p1.lng - p2.lng, 2));
+const getDistance = (p1: RouteData, p2: RouteData) => Math.sqrt(Math.pow(p1.lat - p2.lat, 2) + Math.pow(p1.lng - p2.lng, 2));
 
 function App() {
-  const [deliveries, setDeliveries] = useState([]);
-  const [route, setRoute] = useState([]);
-  const [activeTab, setActiveTab] = useState('list');
+  const [deliveries, setDeliveries] = useState<RouteData[]>([]);
+  const [route, setRoute] = useState<RouteData[]>([]);
+  const [activeTab, setActiveTab] = useState<"list" | "route" | "pack">('list');
 
   const solveRoute = () => {
-    const unvisited = [...deliveries];
-    const optimized = [HUB_START];
-    let current = HUB_START;
+    const unvisited: RouteData[] = [...deliveries];
+    const optimized: RouteData[] = [HUB_START];
+    let current: RouteData = HUB_START;
 
     while (unvisited.length > 0) {
-      let closest = 0;
+      let closest: number = 0;
       let minD = getDistance(current, unvisited[0]);
       for (let i = 1; i < unvisited.length; i++) {
         const d = getDistance(current, unvisited[i]);
