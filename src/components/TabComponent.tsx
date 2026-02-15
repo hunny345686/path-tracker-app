@@ -1,6 +1,16 @@
-export default function TabComponent({ activeTab, deliveries, setDeliveries, solveRoute, route }) {
+import type { RouteData } from "../types/types";
 
-    const removeDelivery = (id) => {
+interface TabProps {
+    activeTab: string;
+    deliveries: RouteData[];
+    setDeliveries: React.Dispatch<React.SetStateAction<RouteData[]>>;
+    solveRoute: () => void;
+    route: RouteData[];
+}
+
+export default function TabComponent({ activeTab, deliveries, setDeliveries, solveRoute, route }: TabProps) {
+
+    const removeDelivery = (id: number) => {
         setDeliveries(prev => prev.filter(item => item.id !== id));
     };
 

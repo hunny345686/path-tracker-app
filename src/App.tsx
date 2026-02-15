@@ -20,7 +20,7 @@ const getDistance = (p1: RouteData, p2: RouteData) => Math.sqrt(Math.pow(p1.lat 
 function App() {
   const [deliveries, setDeliveries] = useState<RouteData[]>([]);
   const [route, setRoute] = useState<RouteData[]>([]);
-  const [activeTab, setActiveTab] = useState<"list" | "route" | "pack">('list');
+  const [activeTab, setActiveTab] = useState<string>('list');
 
   const solveRoute = () => {
     const unvisited: RouteData[] = [...deliveries];

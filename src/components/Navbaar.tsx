@@ -1,10 +1,16 @@
 import UserDeatilForm from './UserDetailForm';
 import { blrLocations } from "../data/defaultRoutes.js";
+import type { RouteData } from '../types/types.js';
 
-export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
+interface NavProps {
+    setDeliveries: React.Dispatch<React.SetStateAction<RouteData[]>>;
+    setRoute: React.Dispatch<React.SetStateAction<RouteData[]>>;
+    setActiveTab: (tab: string) => void;
+}
+
+export default function Navbaar({ setDeliveries, setRoute, setActiveTab }: NavProps) {
     return (
         <nav className="bg-[#0f0f0f] sticky top-0 px-4 py-2 z-[2000] flex items-center justify-between h-14">
-
             {/* LEFT SECTION: Hamburger & Logo */}
             <div className="flex items-center gap-4 min-w-[200px]">
                 <button className="p-2 hover:bg-[#272727] rounded-full text-white transition-colors">
@@ -34,7 +40,6 @@ export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
                 <div className="flex-1">
                     <UserDeatilForm setDeliveries={setDeliveries} />
                 </div>
-                {/* Voice Search Icon (Classic YT) */}
                 <button className="p-2.5 bg-[#181818] hover:bg-[#272727] rounded-full text-white transition-colors">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
@@ -45,7 +50,6 @@ export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
 
             {/* RIGHT SECTION: Tools & Profile */}
             <div className="flex items-center gap-2 md:gap-4 min-w-[200px] justify-end">
-                {/* Reset Button (Styled like YT text button) */}
                 <button
                     onClick={() => {
                         setDeliveries(blrLocations);
@@ -57,14 +61,12 @@ export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
                     RESET DATA
                 </button>
 
-                {/* Create/Plus Icon */}
                 <button className="p-2 hover:bg-[#272727] rounded-full text-white">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M14 10H3v2h11v-2zm0-4H3v2h11V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM3 18h7v-2H3v2z" />
                     </svg>
                 </button>
 
-                {/* Notifications Bell */}
                 <button className="p-2 hover:bg-[#272727] rounded-full text-white relative">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
@@ -74,7 +76,6 @@ export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
                     </span>
                 </button>
 
-                {/* User Avatar */}
                 <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold text-white cursor-pointer ml-2">
                     G
                 </div>
