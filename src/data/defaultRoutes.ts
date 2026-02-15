@@ -1,4 +1,6 @@
-export const blrLocations = [
+import type { RouteData } from "../types/types"
+
+export const blrLocations:RouteData[] = [
 
     {
         id: 102,

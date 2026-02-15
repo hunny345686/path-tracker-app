@@ -6,7 +6,8 @@ import TabComponnet from "./components/TabComponent";
 import type { RouteData } from "./types/types"
 
 const HUB_START = {
-  lat: 12.9719, lng: 77.6412,
+  lat: 12.9719,
+  lng: 77.6412,
   address: 'Indiranagar (Hub)',
   id: 100,
   product: 'phone',
@@ -29,8 +30,11 @@ function App() {
     while (unvisited.length > 0) {
       let closest: number = 0;
       let minD = getDistance(current, unvisited[0]);
+      console.log("Minimum destance", minD)
       for (let i = 1; i < unvisited.length; i++) {
         const d = getDistance(current, unvisited[i]);
+        console.log(" destance", d)
+
         if (d < minD) { minD = d; closest = i; }
       }
       current = unvisited[closest];
@@ -38,6 +42,7 @@ function App() {
       unvisited.splice(closest, 1);
     }
     setRoute(optimized);
+    console.log("route", route)
     setActiveTab('pack');
   };
 

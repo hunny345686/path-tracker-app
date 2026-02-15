@@ -1,5 +1,5 @@
 import UserDeatilForm from './UserDetailForm';
-import { blrLocations } from "../data/data.js";
+import { blrLocations } from "../data/defaultRoutes.js";
 
 export default function Navbaar({ setDeliveries, setRoute, setActiveTab }) {
     return (
