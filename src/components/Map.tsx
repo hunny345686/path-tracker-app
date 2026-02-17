@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import type { RouteData } from "./types/types"
+import type { RouteData } from '../types/types';
 
 
 interface MapProps {
@@ -70,9 +70,9 @@ export default function MapComponent({ HUB_START, route, deliveries }: MapProps)
                     <Marker key={d.id} position={[d.lat, d.lng]} icon={createMarkerIcon(i + 1)}>
                         <Popup>
                             <div className="p-1 font-sans">
-                                <p className="text-[10px] font-bold text-[#aaaaaa] uppercase">Stop #{i + 1}</p>
-                                <p className="text-sm font-bold text-black">{d.product}</p>
-                                <p className="text-[11px] text-gray-600">{d.customerName}</p>
+                                <p className="text-[10px] font-bold text-[#aaaaaa] uppercase m-0">Stop #{i + 1}</p>
+                                <p className="text-sm font-bold text-black m-0">{d.product}</p>
+                                <p className="text-[11px] text-gray-600 m-0">{d.customerName}</p>
                             </div>
                         </Popup>
                     </Marker>
@@ -92,9 +92,9 @@ export default function MapComponent({ HUB_START, route, deliveries }: MapProps)
                         <Polyline
                             positions={route.map(p => [p.lat, p.lng])}
                             color="#FF0000"
-                            weight={3}
+                            weight={4}
                             opacity={1}
-                            dashArray="1, 10" // Optional: makes it look like a progress bar
+                            dashArray="4, 10" // Optional: makes it look like a progress bar
                         />
                     </>
                 )}

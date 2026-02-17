@@ -1,13 +1,18 @@
 import { useState } from "react";
+import type { RouteData } from "../types/types";
+interface NavProps {
+    setDeliveries: React.Dispatch<React.SetStateAction<RouteData[]>>;
+    setActiveTab: (tab: string) => void;
+}
 
-export default function UserDeatilForm({ setDeliveries, setActiveTab }) {
+export default function UserDeatilForm({ setDeliveries, setActiveTab }: NavProps) {
     const [newProduct, setNewProduct] = useState('');
     const [newAddress, setNewAddress] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [mobile, setMobile] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleAddDelivery = async (e) => {
+    const handleAddDelivery = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newProduct || !newAddress || !customerName || !mobile) {
             return alert("Please fill all fields!");
@@ -19,6 +24,8 @@ export default function UserDeatilForm({ setDeliveries, setActiveTab }) {
                 `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(newAddress)}`
             );
             const data = await response.json();
+
+
 
             if (data && data.length > 0) {
                 const newEntry = {

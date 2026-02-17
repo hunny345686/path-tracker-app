@@ -51,7 +51,7 @@ export default function TabComponent({ activeTab, deliveries, setDeliveries, sol
                     {deliveries.map(d => (
                         <div key={d.id} className="group flex gap-3 p-1 rounded-xl transition-all hover:bg-[#272727]">
                             {/* Thumbnail Style Icon */}
-                            <div className="w-32 h-20 bg-[#272727] flex-shrink-0 rounded-xl flex items-center justify-center text-2xl group-hover:bg-[#3f3f3f] transition-colors">
+                            <div className="w-32 h-20 bg-[#272727] shrink-0 rounded-xl flex items-center justify-center text-2xl group-hover:bg-[#3f3f3f] transition-colors">
                                 📦
                             </div>
 
@@ -110,7 +110,7 @@ export default function TabComponent({ activeTab, deliveries, setDeliveries, sol
                             return (
                                 <div key={idx} className={`flex items-center gap-3 p-2 rounded-lg ${isNextUp ? 'bg-white/10 ring-1 ring-white/20' : 'bg-transparent hover:bg-white/5'}`}>
                                     <span className="text-[10px] font-bold text-[#aaaaaa] w-4">{idx + 1}</span>
-                                    <div className="w-14 h-10 bg-[#272727] rounded-lg flex-shrink-0 flex items-center justify-center text-lg">
+                                    <div className="w-14 h-10 bg-[#272727] rounded-lg shrink-0 flex items-center justify-center text-lg">
                                         📦
                                     </div>
                                     <div className="flex-1 min-w-0">
