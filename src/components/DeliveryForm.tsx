@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { LoaderCircle, MapPin, PackagePlus, Phone, UserRound } from 'lucide-react';
+import QrScanner from './QrScanner';
 import { geocodeAddress } from '../services/geocoding';
-import type { RouteData } from '../types/types';
+import type { DeliveryDraft, RouteData } from '../types/types';
 import { isValidPhone, normalizePhone } from '../utils/deliveries';
 
 interface AddDeliveryResult {
@@ -31,6 +32,14 @@ export default function DeliveryForm({ onAddDelivery, onDeliveryAdded }: Deliver
     setAddress('');
     setCustomerName('');
     setMobile('');
+  };
+
+  const applyQrDraft = (draft: DeliveryDraft) => {
+    setProduct(draft.product);
+    setAddress(draft.address);
+    setCustomerName(draft.customerName);
+    setMobile(draft.mobile);
+    setFormError('');
   };
 
   const handleAddDelivery = async (event: FormEvent) => {
@@ -84,8 +93,8 @@ export default function DeliveryForm({ onAddDelivery, onDeliveryAdded }: Deliver
   };
 
   return (
-    <form onSubmit={handleAddDelivery} className="space-y-3">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-[1.1fr_1fr_0.85fr_1.8fr_auto]">
+    <form onSubmit={handleAddDelivery} className="space-y-4">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.05fr_1fr_0.85fr_1.7fr]">
         <label className="block">
           <span className="mb-1 block text-[11px] font-black uppercase text-slate-500">Product</span>
           <div className="relative">
@@ -157,16 +166,25 @@ export default function DeliveryForm({ onAddDelivery, onDeliveryAdded }: Deliver
             />
           </div>
         </label>
+      </div>
 
-        <button
-          className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-red-600 px-5 text-sm font-black text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500/20 disabled:cursor-wait disabled:opacity-70 md:mt-[19px]"
-          disabled={isLoading}
-          title="Add delivery"
-          type="submit"
-        >
-          {isLoading ? <LoaderCircle className="animate-spin" size={18} /> : <PackagePlus size={18} />}
-          Add
-        </button>
+      <div className="flex flex-col gap-3 border-t border-slate-200 pt-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-xs font-bold leading-5 text-slate-500">
+          Add manually or scan a QR. Review details before creating the delivery.
+        </p>
+
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <QrScanner onApplyDraft={applyQrDraft} />
+          <button
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-red-600 px-5 text-sm font-black text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500/20 disabled:cursor-wait disabled:opacity-70"
+            disabled={isLoading}
+            title="Add delivery"
+            type="submit"
+          >
+            {isLoading ? <LoaderCircle className="animate-spin" size={18} /> : <PackagePlus size={18} />}
+            Add delivery
+          </button>
+        </div>
       </div>
 
       {formError && (

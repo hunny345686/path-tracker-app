@@ -3,11 +3,13 @@ import 'leaflet/dist/leaflet.css';
 import DispatchPanel from './components/DispatchPanel';
 import MapComponent from './components/Map';
 import TopBar from './components/TopBar';
+import { demoDeliveries } from './data/demoDeliveries';
 import { buildOptimizedRoute } from './services/routing';
 import type { ActiveTab, LatLng, RouteData, RouteSummary } from './types/types';
 import { formatGeneratedAt, formatRouteTime, isDuplicateDelivery } from './utils/deliveries';
 
 const STORAGE_KEY = 'path-tracker.deliveries.v2';
+const DEMO_SEEDED_KEY = 'path-tracker.demo-seeded.v1';
 
 const DISPATCH_HUB: RouteData = {
   address: 'Indiranagar, Bengaluru, Karnataka',
@@ -25,6 +27,11 @@ const loadSavedDeliveries = (): RouteData[] => {
 
   try {
     const savedDeliveries = window.localStorage.getItem(STORAGE_KEY);
+    if (!savedDeliveries && !window.localStorage.getItem(DEMO_SEEDED_KEY)) {
+      window.localStorage.setItem(DEMO_SEEDED_KEY, 'true');
+      return demoDeliveries;
+    }
+
     if (!savedDeliveries) return [];
 
     const parsed = JSON.parse(savedDeliveries) as RouteData[];
@@ -113,6 +120,22 @@ function App() {
     setActiveTab('orders');
   };
 
+  const loadDemoData = () => {
+    if (deliveries.length > 0 && !window.confirm('Replace current deliveries with demo data?')) return;
+
+    const now = new Date().toISOString();
+
+    setDeliveries(
+      demoDeliveries.map((delivery, index) => ({
+        ...delivery,
+        createdAt: now,
+        id: Date.now() + index,
+      }))
+    );
+    clearRoutePlan();
+    setActiveTab('orders');
+  };
+
   const solveRoute = async () => {
     if (deliveries.length === 0) {
       setRouteError('Add at least one delivery before optimizing the route.');
@@ -142,6 +165,7 @@ function App() {
         onAddDelivery={addDelivery}
         onClearDeliveries={clearDeliveries}
         onDeliveryAdded={() => setActiveTab('orders')}
+        onLoadDemoData={loadDemoData}
         orderCount={deliveries.length}
       />
 

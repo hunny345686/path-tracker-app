@@ -11,6 +11,13 @@ export interface RouteData {
   isPriority?: boolean;
 }
 
+export interface DeliveryDraft {
+  address: string;
+  customerName: string;
+  mobile: string;
+  product: string;
+}
+
 export type LatLng = [number, number];
 
 export type ActiveTab = 'orders' | 'route';

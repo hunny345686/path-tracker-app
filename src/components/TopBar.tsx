@@ -1,4 +1,4 @@
-import { DatabaseZap, MapPinned, Trash2 } from 'lucide-react';
+import { ClipboardList, DatabaseZap, MapPinned, QrCode, Trash2 } from 'lucide-react';
 import DeliveryForm from './DeliveryForm';
 import type { RouteData } from '../types/types';
 
@@ -12,6 +12,7 @@ interface TopBarProps {
   onAddDelivery: (delivery: RouteData) => AddDeliveryResult;
   onClearDeliveries: () => void;
   onDeliveryAdded: () => void;
+  onLoadDemoData: () => void;
   orderCount: number;
 }
 
@@ -20,10 +21,11 @@ export default function TopBar({
   onAddDelivery,
   onClearDeliveries,
   onDeliveryAdded,
+  onLoadDemoData,
   orderCount,
 }: TopBarProps) {
   return (
-    <header className="sticky top-0 z-[3000] border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+    <header className="top-0 z-[3000] border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur lg:sticky">
       <div className="mx-auto max-w-[1520px] px-4 py-3 lg:px-6">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center justify-between gap-4">
@@ -51,6 +53,14 @@ export default function TopBar({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-black uppercase text-slate-700 shadow-sm transition hover:bg-slate-50"
+              onClick={onLoadDemoData}
+              type="button"
+            >
+              <ClipboardList size={15} />
+              Demo batch
+            </button>
             <span className="inline-flex items-center gap-2 rounded-md bg-slate-100 px-3 py-2 text-xs font-black uppercase text-slate-600">
               <DatabaseZap size={15} />
               {orderCount} saved orders
@@ -60,6 +70,10 @@ export default function TopBar({
             </span>
             <span className="rounded-md bg-sky-50 px-3 py-2 text-xs font-black uppercase text-sky-700">
               Road routing
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-md bg-violet-50 px-3 py-2 text-xs font-black uppercase text-violet-700">
+              <QrCode size={15} />
+              QR intake
             </span>
           </div>
         </div>
